@@ -1,0 +1,7 @@
+name: MyPlugin
+version: '${project.version}'
+main: com.randombananazz.minecraft.MyPlugin
+api-version: 1.17
+commands:
+  givetestitem:
+    description: Gives an item.
