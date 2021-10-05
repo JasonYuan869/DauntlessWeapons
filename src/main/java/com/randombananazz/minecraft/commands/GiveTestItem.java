@@ -1,7 +1,6 @@
 package com.randombananazz.minecraft.commands;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,12 +18,13 @@ public class GiveTestItem implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (sender instanceof Player p) {
-            Component itemName = Component.text("Item name", TextColor.color(100, 150, 100));
+            Component itemName = Component.text("Item name", TextColor.color(150, 120, 127));
             List<Component> itemLore = new ArrayList<>();
-            itemLore.add(Component.text("Lore line 1").color(TextColor.color(255, 0, 0)));
-            itemLore.add(Component.text("Lore line 2").color(TextColor.color(0, 255, 0)));
-            ItemStack coolItem = new ItemStack(Material.STICK);
+            itemLore.add(Component.text("Lore line 1").color(TextColor.color(255, 151, 128)));
+            itemLore.add(Component.text("Lore line 2").color(TextColor.color(255, 239, 135)));
+            ItemStack coolItem = new ItemStack(Material.STICK, 1);
             ItemMeta item = coolItem.getItemMeta();
             item.displayName(itemName);
             item.lore(itemLore);
