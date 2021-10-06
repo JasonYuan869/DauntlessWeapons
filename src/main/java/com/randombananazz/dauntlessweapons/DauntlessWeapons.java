@@ -1,8 +1,7 @@
-package com.randombananazz.minecraft;
+package com.randombananazz.dauntlessweapons;
 
-import com.randombananazz.minecraft.commands.GiveWeapon;
-import com.randombananazz.minecraft.listeners.BowListener;
-import org.bukkit.NamespacedKey;
+import com.randombananazz.dauntlessweapons.commands.GiveWeapon;
+import com.randombananazz.dauntlessweapons.listeners.BowListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 

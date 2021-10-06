@@ -1,4 +1,4 @@
-package com.randombananazz.minecraft.commands;
+package com.randombananazz.dauntlessweapons.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

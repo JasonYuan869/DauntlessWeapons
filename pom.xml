@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.randombananazz</groupId>
-    <artifactId>minecraft</artifactId>
+    <artifactId>dauntlessweapons</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>MyPlugin</name>
+    <name>DauntlessWeapons</name>
 
     <properties>
         <java.version>16</java.version>

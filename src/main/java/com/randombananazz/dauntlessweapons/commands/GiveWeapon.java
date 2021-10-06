@@ -1,6 +1,6 @@
-package com.randombananazz.minecraft.commands;
+package com.randombananazz.dauntlessweapons.commands;
 
-import com.randombananazz.minecraft.DauntlessWeapons;
+import com.randombananazz.dauntlessweapons.DauntlessWeapons;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
