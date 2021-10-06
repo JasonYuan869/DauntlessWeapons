@@ -1,7 +1,7 @@
-name: MyPlugin
+name: DauntlessWeapons
 version: '${project.version}'
-main: com.randombananazz.minecraft.MyPlugin
+main: com.randombananazz.minecraft.DauntlessWeapons
 api-version: 1.17
 commands:
-  givetestitem:
-    description: Gives an item.
+  weapon:
+    description: Gives a specific weapon with a specified owner.
