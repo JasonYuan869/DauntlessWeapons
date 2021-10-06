@@ -52,7 +52,7 @@ public class GiveWeapon implements CommandExecutor {
             if (argsLength == 0 || argsLength > 2) {
                 return false;
             } else if (argsLength == 2) {
-                owner = Bukkit.getPlayerExact(args[1]);
+                owner = Bukkit.getPlayer(args[1]);
                 if (owner == null) {
                     p.sendMessage(Component.text("That player does not exist!").color(NamedTextColor.DARK_RED));
                     return true;
@@ -78,7 +78,8 @@ public class GiveWeapon implements CommandExecutor {
                     weaponType = Material.BOW;
                 }
                 default -> {
-                    return false;
+                    p.sendMessage(Component.text("That deity does not exist!").color(NamedTextColor.DARK_RED));
+                    return true;
                 }
             }
             giveWeapon(id, weaponType, p, owner);

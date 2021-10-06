@@ -1,7 +1,14 @@
 name: DauntlessWeapons
 version: '${project.version}'
-main: com.randombananazz.minecraft.DauntlessWeapons
+main: com.randombananazz.dauntlessweapons.DauntlessWeapons
 api-version: 1.17
 commands:
   weapon:
     description: Gives a specific weapon with a specified owner.
+    permission: dp.giveweapon
+    permission-message: You do not have permission to use this command.
+    usage: "Usage: /weapon <deity> [owner]"
+permissions:
+  dp.giveweapon:
+    description: Allows you to use the /weapon command.
+    default: op

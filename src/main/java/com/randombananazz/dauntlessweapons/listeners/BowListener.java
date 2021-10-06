@@ -7,14 +7,14 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.World;
+import org.bukkit.block.BlockFace;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
-import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -36,8 +36,7 @@ public class BowListener implements Listener {
 
     @EventHandler
     public void onItemUse(@NotNull PlayerInteractEvent e) {
-        if (e.getAction() != Action.RIGHT_CLICK_AIR
-                || e.getAction() != Action.RIGHT_CLICK_BLOCK
+        if (!e.getAction().isRightClick()
                 || e.getItem() == null) return;
         ItemStack bow = e.getItem();
         if (isSpecialBow(bow) == -1) return;
@@ -61,30 +60,31 @@ public class BowListener implements Listener {
         if (!trackedArrows.containsKey(e.getEntity())) return;
         int bowID = trackedArrows.get(e.getEntity());
         World w = e.getEntity().getWorld();
-        Location loc = null;
-        if (e.getHitBlock() != null) {
-            loc = e.getHitBlock().getLocation();
-        } else if (e.getHitEntity() != null) {
+        Location loc = e.getEntity().getLocation();
+
+        if (e.getHitEntity() != null) {
             loc = e.getHitEntity().getLocation();
         }
-        if (loc == null) return;
 
         switch (bowID) {
             case 0 -> w.strikeLightning(loc);
             case 1 -> {
-                Material lastType = w.getType(loc);
-                w.setType(loc.getBlock().getLocation(), Material.WATER);
-                for (int i = 0; i < 3; i++) {
-                    w.spawn(loc, TNTPrimed.class, tnt -> tnt.setFuseTicks(0));
-                }
-                w.setType(loc.getBlock().getLocation(), lastType);
+                loc.createExplosion(4f, false, false);
+                loc.createExplosion(4f, false, false);
+                loc.createExplosion(4f, false, false);
             }
             case 2 -> {
-                for (LivingEntity q: w.getNearbyLivingEntities(loc, 5)) {
+                w.playSound(loc, "block.glass.break", 1, 1);
+                for (LivingEntity q: w.getNearbyLivingEntities(loc, 3)) {
                     q.setFreezeTicks(q.getMaxFreezeTicks());
-                    q.damage(8, e.getEntity());
+                    q.damage(q.equals(e.getEntity().getShooter()) ? 4: 8, (Entity) e.getEntity().getShooter());
                     q.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 70, 0));
                 }
+
+                if (!loc.getBlock().isSolid()) {
+                    loc = loc.subtract(0,1,0);
+                }
+                if (loc.getBlock().isSolid()) w.setType(loc, Material.ICE);
             }
         }
         e.getEntity().remove();
