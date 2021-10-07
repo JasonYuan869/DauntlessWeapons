@@ -20,10 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 public class GiveWeapon implements CommandExecutor {
-    private static final DauntlessWeapons plugin = DauntlessWeapons.getPlugin(DauntlessWeapons.class);
-    private static final NamespacedKey weaponID = new NamespacedKey(plugin, "weaponID");
-    private static final NamespacedKey ownerUUIDMost = new NamespacedKey(plugin, "OwnerUUIDMost");
-    private static final NamespacedKey ownerUUIDLeast = new NamespacedKey(plugin, "OwnerUUIDLeast");
+
 
     private static final String[] WEAPON_NAME = {
             "Lightning Bow",
@@ -100,16 +97,16 @@ public class GiveWeapon implements CommandExecutor {
             itemMeta.addEnchant(Enchantment.DURABILITY, 10, true);
             itemMeta.setUnbreakable(true);
             PersistentDataContainer tags = itemMeta.getPersistentDataContainer();
-            tags.set(weaponID, PersistentDataType.INTEGER, id);
-            tags.set(ownerUUIDMost, PersistentDataType.LONG, ownerUUID.getMostSignificantBits());
-            tags.set(ownerUUIDLeast, PersistentDataType.LONG, ownerUUID.getLeastSignificantBits());
+            tags.set(DauntlessWeapons.weaponID, PersistentDataType.INTEGER, id);
+            tags.set(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG, ownerUUID.getMostSignificantBits());
+            tags.set(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG, ownerUUID.getLeastSignificantBits());
         });
 
         HashMap<Integer, ItemStack> errors = p.getInventory().addItem(weapon);
         if (!errors.isEmpty()) {
             p.sendMessage(Component.text("Your inventory seems to be full!").color(NamedTextColor.DARK_RED));
         } else {
-            plugin.getLogger().info("Gave " + weaponName.content() + " to " + p.getName() + " owned by " + owner.getName());
+            DauntlessWeapons.plugin.getLogger().info("Gave " + weaponName.content() + " to " + p.getName() + " owned by " + owner.getName());
         }
     }
 }

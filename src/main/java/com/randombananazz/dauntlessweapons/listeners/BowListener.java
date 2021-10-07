@@ -5,9 +5,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.World;
-import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -29,10 +27,6 @@ import java.util.HashMap;
 
 public class BowListener implements Listener {
     private static final HashMap<Projectile, Integer> trackedArrows = new HashMap<>();
-    private static final DauntlessWeapons plugin = DauntlessWeapons.getPlugin(DauntlessWeapons.class);
-    private static final NamespacedKey weaponID = new NamespacedKey(plugin, "weaponID");
-    private static final NamespacedKey ownerUUIDMost = new NamespacedKey(plugin, "OwnerUUIDMost");
-    private static final NamespacedKey ownerUUIDLeast = new NamespacedKey(plugin, "OwnerUUIDLeast");
 
     @EventHandler
     public void onItemUse(@NotNull PlayerInteractEvent e) {
@@ -92,15 +86,15 @@ public class BowListener implements Listener {
 
     private int isSpecialBow(@NotNull ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        return pdc.getOrDefault(weaponID, PersistentDataType.INTEGER, -1);
+        return pdc.getOrDefault(DauntlessWeapons.weaponID, PersistentDataType.INTEGER, -1);
     }
 
     private boolean isCorrectOwner(@NotNull Player p, @NotNull ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(ownerUUIDLeast, PersistentDataType.LONG)
-                || !pdc.has(ownerUUIDMost, PersistentDataType.LONG)) return false;
-        Long uuidLeast = pdc.get(ownerUUIDLeast, PersistentDataType.LONG);
-        Long uuidMost = pdc.get(ownerUUIDMost, PersistentDataType.LONG);
+        if (!pdc.has(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG)
+                || !pdc.has(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG)) return false;
+        Long uuidLeast = pdc.get(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG);
+        Long uuidMost = pdc.get(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG);
         if (uuidLeast == null || uuidMost == null) return false;
         return uuidLeast == p.getUniqueId().getLeastSignificantBits()
                 && uuidMost == p.getUniqueId().getMostSignificantBits();
