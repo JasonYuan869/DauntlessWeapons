@@ -92,7 +92,7 @@ public class BowListener implements Listener {
     private boolean isCorrectOwner(@NotNull Player p, @NotNull ItemStack item) {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
         if (!pdc.has(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG)
-                || !pdc.has(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG)) return false;
+                || !pdc.has(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG)) return true;
         Long uuidLeast = pdc.get(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG);
         Long uuidMost = pdc.get(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG);
         if (uuidLeast == null || uuidMost == null) return false;

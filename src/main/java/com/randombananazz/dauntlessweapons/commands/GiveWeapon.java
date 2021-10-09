@@ -6,7 +6,6 @@ import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -55,7 +55,7 @@ public class GiveWeapon implements CommandExecutor {
                     return true;
                 }
             } else {
-                owner = p;
+                owner = null;
             }
 
             int id;
@@ -85,8 +85,8 @@ public class GiveWeapon implements CommandExecutor {
         return false;
     }
 
-    private void giveWeapon(int id, Material weaponType, Player p, Player owner) {
-        UUID ownerUUID = owner.getUniqueId();
+    private void giveWeapon(int id, Material weaponType, Player p, @Nullable Player owner) {
+        UUID ownerUUID = owner == null ? null : owner.getUniqueId();
         TextComponent weaponName = Component.text(WEAPON_NAME[id], WEAPON_COLOR[id]);
         List<Component> weaponLore = new ArrayList<>();
         weaponLore.add(Component.text(WEAPON_LORE[id]));
@@ -98,8 +98,10 @@ public class GiveWeapon implements CommandExecutor {
             itemMeta.setUnbreakable(true);
             PersistentDataContainer tags = itemMeta.getPersistentDataContainer();
             tags.set(DauntlessWeapons.weaponID, PersistentDataType.INTEGER, id);
-            tags.set(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG, ownerUUID.getMostSignificantBits());
-            tags.set(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG, ownerUUID.getLeastSignificantBits());
+            if (ownerUUID != null) {
+                tags.set(DauntlessWeapons.ownerUUIDMost, PersistentDataType.LONG, ownerUUID.getMostSignificantBits());
+                tags.set(DauntlessWeapons.ownerUUIDLeast, PersistentDataType.LONG, ownerUUID.getLeastSignificantBits());
+            }
         });
 
         HashMap<Integer, ItemStack> errors = p.getInventory().addItem(weapon);
